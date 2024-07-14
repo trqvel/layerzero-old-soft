@@ -1,0 +1,7 @@
+beautifulsoup4==4.8.2
+ccxt==3.0.104
+Jinja2==3.1.2
+python_dateutil==2.8.2
+Requests==2.31.0
+web3==6.4.0
+lxml==4.9.2
