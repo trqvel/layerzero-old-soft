@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Failed Transaction Log</title>
+    <meta charset="utf-8">
+    <style>
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: #222;
+            color: #f0f0f0;
+        }
+        td {
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+        th, td {
+            border: 1px solid #444;
+        }
+        .error {
+            color: #F44336;
+        }
+        #switch_button {
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <button id='switch_button'>Show wallet address</button>
+    <table id='transaction_table'>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Date/Time</th>
+                <th>Type</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Amount</th>
+                <th>Token</th>
+                <th>Error</th>
+                <th>Private key/Wallet</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for e in transactions %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ e.datetime }}</td>
+                    <td>{{ e.transaction_type }}</td>
+                    <td>{{ e.from_network }}</td>
+                    <td>{{ e.to_network }}</td>
+                    <td>{{ e.amount }}</td>
+                    <td>{{ e.token }}</td>
+                    <td class="error">{{ e.error }}</td>
+                    <td class="wallet_info" data-private-key="{{ e.private_key }}" data-wallet-address="{{ e.wallet_address }}">{{ e.private_key }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <script>
+        document.getElementById('switch_button').onclick = function() {
+            var walletInfoElements = document.getElementsByClassName('wallet_info');
+            for (var i = 0; i < walletInfoElements.length; i++) {
+                var element = walletInfoElements[i];
+                var privateKey = element.getAttribute('data-private-key');
+                var walletAddress = element.getAttribute('data-wallet-address');
+                if (element.textContent === privateKey) {
+                    element.textContent = walletAddress;
+                } else {
+                    element.textContent = privateKey;
+                }
+            }
+        }
+    </script>
+</body>
+</html>
